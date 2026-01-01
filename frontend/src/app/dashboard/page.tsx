@@ -1,43 +1,67 @@
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+"use client";
+import Link from "next/link";
+import LogoutButton from "@/components/LogoutButton";
+import { useEffect, useState } from "react";
+import { getProjects } from "@/lib/projects";
 
-export default async function DashboardPage() {
-  const cookieStore = await cookies();
+type Project = {
+  id: string;
+  title: string;
+  description: string;
+  status: string;
+};
 
-  // The latest pattern for Server Components (Read-only context)
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll();
-        },
-        setAll(cookiesToSet) {
-          try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            );
-          } catch {
-            // The `setAll` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing user sessions.
-          }
-        },
-      },
+export default function DashboardPage() {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function load() {
+      const { data } = await getProjects();
+      if (data) setProjects(data);
+      setLoading(false);
     }
-  );
-
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
+    load();
+  }, []);
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
-      <p className="text-gray-600">Welcome, {user.email}</p>
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <div className="flex gap-3">
+          <Link
+            href="/dashboard/new"
+            className="rounded bg-black px-4 py-2 text-white"
+          >
+            + New Project
+          </Link>
+          <LogoutButton />
+        </div>
+      </div>
+
+      {loading && <p>Loading projects...</p>}
+
+      {!loading && projects.length === 0 && (
+        <p className="text-gray-500">
+          No projects yet. Create your first one.
+        </p>
+      )}
+
+      <div className="grid gap-4 md:grid-cols-2">
+        {projects.map((project) => (
+          <Link
+            key={project.id}
+            href={`/dashboard/${project.id}`}
+            className="rounded border p-4 hover:shadow"
+          >
+            <h2 className="font-semibold">{project.title}</h2>
+            <p className="text-sm text-gray-600">{project.description}</p>
+            <span className="mt-2 inline-block rounded bg-gray-100 px-2 py-1 text-xs">
+              {project.status}
+            </span>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }
