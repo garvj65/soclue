@@ -52,13 +52,14 @@ export default function DashboardPage() {
           <Link
             key={project.id}
             href={`/dashboard/${project.id}`}
-            className="rounded border p-4 hover:shadow"
+            className="rounded-lg border border-gray-200 bg-white p-4 hover:shadow-sm"
           >
-            <h2 className="font-semibold">{project.title}</h2>
-            <p className="text-sm text-gray-600">{project.description}</p>
-            <span className="mt-2 inline-block rounded bg-gray-100 px-2 py-1 text-xs">
+            <h2 className="font-bold text-black">{project.title}</h2>
+            <p className="text-sm text-black">{project.description}</p>
+            <span className="inline-block rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
               {project.status}
             </span>
+
           </Link>
         ))}
       </div>
