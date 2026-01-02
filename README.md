@@ -66,15 +66,7 @@ AI insights are generated using deterministic, rule-based analysis of user feedb
 
 ## Architecture
 
-Next.js (App Router, TypeScript)
-│
-├── UI Components
-├── Service Layer (projects, feedback, ai)
-│
-└── Supabase
-├── Auth
-├── PostgreSQL
-└── Row Level Security
+
 
 
 Key architectural principles:
