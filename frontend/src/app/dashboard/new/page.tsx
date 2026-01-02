@@ -28,14 +28,14 @@ export default function NewProjectPage() {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 border-black">
       <div className="mx-auto max-w-xl rounded-lg border bg-white p-6">
-        <h1 className="mb-4 text-xl font-bold">Create New Project</h1>
-        <p className="mb-6 text-sm text-gray-500">
+        <h1 className="mb-4 text-xl font-bold text-gray-800">Create New Project</h1>
+        <p className="mb-6 text-sm text-gray-800">
           Create a new project to start collecting feedback and insights.
         </p>
 
-        <form onSubmit={handleCreate} className="space-y-4">
+        <form onSubmit={handleCreate} className="space-y-4 text-gray-500">
         <input
           required
           placeholder="Project title"
@@ -46,7 +46,7 @@ export default function NewProjectPage() {
 
         <textarea
           placeholder="Description"
-          className="w-full border px-3 py-2"
+          className="w-full border px-3 py-2 text-gray-500"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />

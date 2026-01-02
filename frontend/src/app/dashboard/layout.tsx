@@ -8,9 +8,9 @@ export default function DashboardLayout({
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Top Bar */}
-      <header className="border-b bg-white">
+      <header className="border-b bg-gray-800">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <h1 className="text-lg font-semibold">Soclue.io</h1>
+          <h1 className="text-lg font-semibold">SoClue</h1>
           <LogoutButton />
         </div>
       </header>

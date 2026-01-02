@@ -93,25 +93,25 @@ export default function ProjectDetailPage({
     <div className="p-6 max-w-4xl mx-auto">
       {/* Project Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold">{project.title}</h1>
+        <h1 className="text-2xl font-semibold text-gray-800">{project.title}</h1>
         <p className="mt-1 text-gray-600">
           {project.description || "No description provided"}
         </p>
 
-        <span className="mt-3 inline-flex rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
+        <span className="mt-3 inline-flex rounded-full bg-gray-300 px-3 py-1 text-xs font-medium text-gray-800">
           Status: {project.status}
         </span>
       </div>
 
       {/* Feedback Section */}
       <div className="rounded-lg border bg-white p-6">
-        <h2 className="mb-4 text-lg font-semibold">Feedback</h2>
+        <h2 className="mb-4 text-lg font-semibold text-gray-800">Feedback</h2>
 
         {/* Feedback Form */}
-        <form onSubmit={handleSubmit} className="mb-6 space-y-3">
+        <form onSubmit={handleSubmit} className="mb-6 space-y-3 text-gray-500">
           <textarea
             placeholder="Add feedback..."
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+            className="w-full rounded-md border border-gray-300 text-gray-500 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             rows={3}
@@ -128,7 +128,7 @@ export default function ProjectDetailPage({
 
         {/* Feedback List */}
         {feedback.length === 0 && (
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-700">
             No feedback yet.
           </p>
         )}
@@ -137,10 +137,10 @@ export default function ProjectDetailPage({
           {feedback.map((item) => (
             <li
               key={item.id}
-              className="rounded-md border bg-gray-50 p-3 text-sm"
+              className="rounded-md border bg-gray-800 p-3 text-sm"
             >
               {item.message}
-              <div className="mt-1 text-xs text-gray-600">
+              <div className="mt-1 text-xs text-gray-500">
                 {new Date(item.created_at).toLocaleString()}
               </div>
             </li>
@@ -151,7 +151,7 @@ export default function ProjectDetailPage({
       {/* AI Insights Section */}
       <div className="mt-10 rounded-lg border bg-white p-6">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold">AI Insights</h2>
+          <h2 className="text-lg font-semibold text-black text-shadow-gray-200">AI Insights</h2>
           <button
             onClick={handleGenerateInsights}
             disabled={aiLoading}
@@ -168,17 +168,17 @@ export default function ProjectDetailPage({
         )}
 
         {insights && (
-          <div className="space-y-4 rounded border bg-gray-50 p-4">
+          <div className="space-y-4 rounded border bg-gray-800 p-4">
             <div>
-              <h3 className="font-medium">Summary</h3>
-              <p className="text-sm text-gray-700">
+              <h3 className="font-medium text-semibold text-white">Summary</h3>
+              <p className="text-sm text-gray-100">
                 {insights.summary}
               </p>
             </div>
 
             <div>
-              <h3 className="font-medium">Key Points</h3>
-              <ul className="list-disc pl-5 text-sm text-gray-700">
+              <h3 className="font-medium text-semibold text-white">Key Points</h3>
+              <ul className="list-disc pl-5 text-sm text-gray-100">
                 {insights.key_points.map((point: string, i: number) => (
                   <li key={i}>{point}</li>
                 ))}
@@ -186,8 +186,8 @@ export default function ProjectDetailPage({
             </div>
 
             <div>
-              <h3 className="font-medium">Suggestions</h3>
-              <ul className="list-disc pl-5 text-sm text-gray-700">
+              <h3 className="font-medium text-semibold text-white">Suggestions</h3>
+              <ul className="list-disc pl-5 text-sm text-gray-100">
                 {insights.suggestions.map((s: string, i: number) => (
                   <li key={i}>{s}</li>
                 ))}
