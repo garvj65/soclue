@@ -52,14 +52,9 @@ This project faithfully recreates that loop.
 - Persistent storage
 - Ownership enforced via RLS
 
-### ✅ AI Insights (Mocked)
-- “Generate AI Insights” per project
-- Structured AI output:
-  - summary
-  - key points
-  - suggestions
-- Insights stored and persisted
-- Architecture supports real AI integration later
+### ✅ AI Insights 
+
+AI insights are generated using deterministic, rule-based analysis of user feedback. This ensures real, explainable intelligence without relying on external APIs. The architecture allows seamless replacement with a machine learning or LLM-based service in the future.
 
 ### ✅ Data Security & Management
 - PostgreSQL via Supabase
