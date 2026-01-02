@@ -28,10 +28,14 @@ export default function NewProjectPage() {
   };
 
   return (
-    <div className="mx-auto max-w-xl p-6">
-      <h1 className="mb-4 text-xl font-bold">Create New Project</h1>
+    <div className="p-6">
+      <div className="mx-auto max-w-xl rounded-lg border bg-white p-6">
+        <h1 className="mb-4 text-xl font-bold">Create New Project</h1>
+        <p className="mb-6 text-sm text-gray-500">
+          Create a new project to start collecting feedback and insights.
+        </p>
 
-      <form onSubmit={handleCreate} className="space-y-4">
+        <form onSubmit={handleCreate} className="space-y-4">
         <input
           required
           placeholder="Project title"
@@ -49,11 +53,12 @@ export default function NewProjectPage() {
 
         <button
           disabled={loading}
-          className="rounded bg-black px-4 py-2 text-white"
+          className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
         >
           {loading ? "Creating..." : "Create Project"}
         </button>
       </form>
+      </div>
     </div>
   );
 }

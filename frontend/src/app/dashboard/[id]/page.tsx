@@ -92,23 +92,26 @@ export default function ProjectDetailPage({
   return (
     <div className="p-6 max-w-4xl mx-auto">
       {/* Project Header */}
-      <div className="mb-6">
+      <div className="mb-8">
         <h1 className="text-2xl font-bold">{project.title}</h1>
-        <p className="text-gray-600">{project.description}</p>
-        <span className="inline-block rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
-              {project.status}
+        <p className="mt-1 text-gray-600">
+          {project.description || "No description provided"}
+        </p>
+
+        <span className="mt-3 inline-flex rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
+          Status: {project.status}
         </span>
       </div>
 
       {/* Feedback Section */}
-      <div className="border-t pt-6">
+      <div className="rounded-lg border bg-white p-6">
         <h2 className="mb-4 text-lg font-semibold">Feedback</h2>
 
         {/* Feedback Form */}
         <form onSubmit={handleSubmit} className="mb-6 space-y-3">
           <textarea
             placeholder="Add feedback..."
-            className="w-full rounded border px-3 py-2"
+            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             rows={3}
@@ -117,7 +120,7 @@ export default function ProjectDetailPage({
 
           <button
             disabled={loading}
-            className="rounded bg-black px-4 py-2 text-white hover:bg-gray-800 active:bg-gray-900"
+            className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
           >
             {loading ? "Submitting..." : "Submit Feedback"}
           </button>
@@ -134,7 +137,7 @@ export default function ProjectDetailPage({
           {feedback.map((item) => (
             <li
               key={item.id}
-              className="rounded border bg-gray-50 p-3 text-sm text-black"
+              className="rounded-md border bg-gray-50 p-3 text-sm"
             >
               {item.message}
               <div className="mt-1 text-xs text-gray-600">
@@ -146,13 +149,13 @@ export default function ProjectDetailPage({
       </div>
 
       {/* AI Insights Section */}
-      <div className="mt-10 border-t pt-6">
+      <div className="mt-10 rounded-lg border bg-white p-6">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-semibold">AI Insights</h2>
           <button
             onClick={handleGenerateInsights}
             disabled={aiLoading}
-            className="rounded bg-indigo-600 px-4 py-2 text-sm text-white hover:bg-indigo-700"
+            className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500"
           >
             {aiLoading ? "Generating..." : "Generate Insights"}
           </button>
