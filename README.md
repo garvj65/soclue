@@ -130,3 +130,37 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 ```bash
 npm run dev
 ```
+
+## Tradeoffs & Future Improvements
+### Tradeoffs
+
+- Mocked AI insights instead of real LLM calls
+
+- No media rendering pipeline
+
+- Minimal UI polish
+
+### Future Improvements
+
+- Video upload & rendering service
+
+- AI voiceover integration
+
+- Collaboration features
+
+- Analytics & usage metrics
+
+## Demo Flow
+
+- User signup/login
+- Dashboard walkthrough
+- Create project
+- Add feedback
+- Generate AI insights
+- Explain architecture & tradeoffs
+
+## Conclusion
+
+This project focuses on product understanding, system design, and clean
+architecture, mirroring how Clueso operates at its core while making
+intentional tradeoffs appropriate for the assignment scope.
