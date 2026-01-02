@@ -1,5 +1,6 @@
 "use client";
 import { use, useEffect, useState } from "react";
+import { generateInsights, getInsights, saveInsights } from "@/lib/ai";
 import { addFeedback, getFeedback } from "@/lib/feedback";
 import { getProjectById } from "@/lib/projects";
 import { supabaseBrowser } from "@/lib/supabase-browser";
@@ -17,6 +18,12 @@ type Project = {
   status: string;
 };
 
+type Insights = {
+  summary: string;
+  key_points: string[];
+  suggestions: string[];
+};
+
 export default function ProjectDetailPage({
   params,
 }: {
@@ -29,14 +36,18 @@ export default function ProjectDetailPage({
   const [feedback, setFeedback] = useState<Feedback[]>([]);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [insights, setInsights] = useState<Insights | null>(null);
+  const [aiLoading, setAiLoading] = useState(false);
 
   useEffect(() => {
     async function load() {
       const { data: projectData } = await getProjectById(id);
       const { data: feedbackData } = await getFeedback(id);
+      const { data: insightData } = await getInsights(id);
 
       setProject(projectData);
       setFeedback(feedbackData || []);
+      setInsights(insightData);
     }
     load();
   }, [id]);
@@ -60,6 +71,20 @@ export default function ProjectDetailPage({
     const { data } = await getFeedback(id);
     setFeedback(data || []);
     setLoading(false);
+  };
+
+  const handleGenerateInsights = async () => {
+    setAiLoading(true);
+
+    const messages = feedback.map((f) => f.message);
+    const aiResult = await generateInsights(id, messages);
+
+    await saveInsights(id, aiResult);
+
+    const { data } = await getInsights(id);
+    setInsights(data);
+
+    setAiLoading(false);
   };
 
   if (!project) return <p className="p-6">Loading project...</p>;
@@ -118,6 +143,55 @@ export default function ProjectDetailPage({
             </li>
           ))}
         </ul>
+      </div>
+
+      {/* AI Insights Section */}
+      <div className="mt-10 border-t pt-6">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-lg font-semibold">AI Insights</h2>
+          <button
+            onClick={handleGenerateInsights}
+            disabled={aiLoading}
+            className="rounded bg-indigo-600 px-4 py-2 text-sm text-white hover:bg-indigo-700"
+          >
+            {aiLoading ? "Generating..." : "Generate Insights"}
+          </button>
+        </div>
+
+        {!insights && (
+          <p className="text-sm text-gray-500">
+            No insights generated yet.
+          </p>
+        )}
+
+        {insights && (
+          <div className="space-y-4 rounded border bg-gray-50 p-4">
+            <div>
+              <h3 className="font-medium">Summary</h3>
+              <p className="text-sm text-gray-700">
+                {insights.summary}
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-medium">Key Points</h3>
+              <ul className="list-disc pl-5 text-sm text-gray-700">
+                {insights.key_points.map((point: string, i: number) => (
+                  <li key={i}>{point}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-medium">Suggestions</h3>
+              <ul className="list-disc pl-5 text-sm text-gray-700">
+                {insights.suggestions.map((s: string, i: number) => (
+                  <li key={i}>{s}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
